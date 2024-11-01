@@ -58,3 +58,18 @@ class WeDeliver:
         else:
             for driver_id,(name,startCity) in self.drivers.items():
                 print(f"{driver_id},{name},{startCity}")
+
+    def addDrivers(self):
+        name=input("Enter the driver name")
+        city=input("Enter the driver start city")
+
+        if city not in self.cities:
+            add_city=input(f"{city} is not in the city list do you want to add it? y/n:")
+            if add_city.lower()=='yes':
+                self.cities[city]=[]
+            else:
+                print("driver is not added as the city is not available")
+
+            driver_id=self.generate_driver_id()
+            self.drivers[driver_id]=(name,city)
+            print(f"Driver {name} added with id {driver_id}")
