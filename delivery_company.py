@@ -4,14 +4,14 @@ class WeDeliver:
         self.cities={}
         self.driver_id_counter=1
 
-    def main_menu():
+    def main_menu(self):
         while True:
             print("Hello! Please enter:")
             print("1. To go to the drivers’ menu")
             print("2. To go to the cities’ menu")
             print("3. To exit the system")
 
-            choice=input("Enter your choice")
+            choice=int(input("Enter your choice:"))
 
             if choice==1:
                 self.drivers_menu()
@@ -32,7 +32,7 @@ class WeDeliver:
             print("3. Check similar drivers")
             print("4. To go back to the main menu")
 
-            choice=input("Enter choice:")
+            choice=int(input("Enter choice:"))
 
             if choice==1:
                 self.viewDrivers()
@@ -107,3 +107,16 @@ class WeDeliver:
                 break
             else:
                 print("Invalid choice.Please try again.")
+
+    def showCities(self):
+        # Extract city names, sort them in descending alphabetical order (Z to A)
+        sortedCities=sorted(self.cities.keys(),reverse=True)
+
+         # Display the sorted list of cities
+        print("Cities (sorted from Z to A):")
+        for city in sorted_cities:
+            print(city)
+
+
+system = WeDeliver()
+system.main_menu()
