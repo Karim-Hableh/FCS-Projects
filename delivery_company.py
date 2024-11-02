@@ -73,3 +73,15 @@ class WeDeliver:
             driver_id=self.generate_driver_id()
             self.drivers[driver_id]=(name,city)
             print(f"Driver {name} added with id {driver_id}")
+
+    def checkSimilarDrivers(self):
+        city_drivers={}
+
+        for driver_id,(name,startCity) in self.drivers.items():
+            if start_city not in city_drivers:
+                city_drivers[start_city] = []  # Initialize with an empty list if the city is not in the dictionary
+            city_drivers[start_city].append(name)  # Append the driver's name to the city's list of drivers
+
+        print("/n Similar drivers by city")
+        for city,drivers in city_drivers.items():
+            print(f"{city}: {','.join(drivers)}")
