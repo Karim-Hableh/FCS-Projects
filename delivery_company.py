@@ -85,3 +85,25 @@ class WeDeliver:
         print("/n Similar drivers by city")
         for city,drivers in city_drivers.items():
             print(f"{city}: {','.join(drivers)}")
+
+    def cities_menu(self):
+        while True:
+            print("Hello! Please enter:")
+            print("1. Show cities")
+            print("2. Search city")
+            print("3. Print neighboring cities ")
+            print("4. Print Drivers delivering to city ")
+            print("5. To go back to the main menu")
+            choice = input("Enter your choice: ")
+            if choice == 1:
+                self.show_cities()
+            elif choice == 2:
+                self.search_city()
+            elif choice == 3:
+                self.print_neighboring_cities()
+            elif choice == 4:
+                self.print_drivers()
+            elif choice == 5:
+                break
+            else:
+                print("Invalid choice.Please try again.")
