@@ -94,11 +94,11 @@ class WeDeliver:
             print("3. Print neighboring cities ")
             print("4. Print Drivers delivering to city ")
             print("5. To go back to the main menu")
-            choice = input("Enter your choice: ")
+            choice = int(input("Enter your choice: "))
             if choice == 1:
-                self.show_cities()
+                self.showCities()
             elif choice == 2:
-                self.search_city()
+                self.searchCity()
             elif choice == 3:
                 self.print_neighboring_cities()
             elif choice == 4:
@@ -116,6 +116,23 @@ class WeDeliver:
         print("Cities (sorted from Z to A):")
         for city in sorted_cities:
             print(city)
+
+    def searchCity(self):
+        key=input("Enter a search key:").lower()
+        for city in self.cities.keys():
+            if key in city.lower():
+                print(f"The cities found,{city}")
+            else:
+                print("No cities found with that key.")
+
+    # def searchCity(self):
+    #     key = input("Enter search key: ").lower()
+    #     results = [city for city in self.cities if key in city.lower()]
+        
+    #     if results:
+    #         print("Cities found:", ", ".join(results))
+    #     else:
+    #         print("No cities found with that key.")
 
 
 system = WeDeliver()
