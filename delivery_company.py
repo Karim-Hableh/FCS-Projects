@@ -7,8 +7,8 @@ class WeDeliver:
     def main_menu(self):
         while True:
             print("Hello! Please enter:")
-            print("1. To go to the drivers’ menu")
-            print("2. To go to the cities’ menu")
+            print("1. To go to the drivers menu")
+            print("2. To go to the cities menu")
             print("3. To exit the system")
 
             choice=int(input("Enter your choice:"))
@@ -39,7 +39,7 @@ class WeDeliver:
             elif choice==2:
                 self.addDrivers()
             elif choice==3:
-                self.checkDrivers()
+                self.checkSimilarDrivers()
             elif choice==4:
                 break
             else:
@@ -53,7 +53,7 @@ class WeDeliver:
 
     def viewDrivers(self):
         print("The list of drivers is:")
-        if self.drivers==0:
+        if not self.drivers:
             print("No drivers in the system")
         else:
             for driver_id,(name,startCity) in self.drivers.items():
@@ -70,17 +70,18 @@ class WeDeliver:
             else:
                 print("driver is not added as the city is not available")
 
-            driver_id=self.generate_driver_id()
-            self.drivers[driver_id]=(name,city)
-            print(f"Driver {name} added with id {driver_id}")
+        driver_id=self.generate_driver_id()
+        self.drivers[driver_id]=(name,city)
+        print(f"Driver {name} added with id {driver_id}")
 
     def checkSimilarDrivers(self):
         city_drivers={}
 
         for driver_id,(name,startCity) in self.drivers.items():
-            if start_city not in city_drivers:
-                city_drivers[start_city] = []  # Initialize with an empty list if the city is not in the dictionary
-            city_drivers[start_city].append(name)  # Append the driver's name to the city's list of drivers
+            if startCity not in city_drivers:
+                city_drivers[startCity] = []  # Initialize with an empty list if the city is not in the dictionary
+            city_drivers[startCity].append(name)  # Append the driver's name to the city's list of drivers
+
 
         print("/n Similar drivers by city")
         for city,drivers in city_drivers.items():
@@ -100,9 +101,9 @@ class WeDeliver:
             elif choice == 2:
                 self.searchCity()
             elif choice == 3:
-                self.print_neighboring_cities()
+                self.printNeighboringCities()
             elif choice == 4:
-                self.print_drivers()
+                self.printDriversDeliveringToCity()
             elif choice == 5:
                 break
             else:
@@ -114,7 +115,7 @@ class WeDeliver:
 
          # Display the sorted list of cities
         print("Cities (sorted from Z to A):")
-        for city in sorted_cities:
+        for city in sortedCities:
             print(city)
 
     def searchCity(self):
@@ -127,13 +128,46 @@ class WeDeliver:
 
     # def searchCity(self):
     #     key = input("Enter search key: ").lower()
-    #     results = [city for city in self.cities if key in city.lower()]
+    #     results = [city for city in self.cities.keys() if key in city.lower()]
         
     #     if results:
     #         print("Cities found:", ", ".join(results))
     #     else:
     #         print("No cities found with that key.")
 
+    def printNeighboringCities(self):
+        city=input("Enter city name:").lower()
+        if city in self.cities:
+            print(f"Neighboring cities for {city}: {', '.join(self.cities[city])}")
+        else:
+            print("City not found")
+
+    def printDriversDeliveringToCity(self):
+        city = input("Enter city name: ")
+        visited = set()
+        drivers = set()
+
+        def bfs(start_city):
+            queue = deque([start_city])
+            visited.add(start_city)
+            
+            while queue:
+                current_city = queue.popleft()
+                for driver_id, (name, start_city) in self.drivers.items():
+                    if current_city == start_city:
+                        drivers.add(name)
+
+                for neighbor in self.cities[current_city]:
+                    if neighbor not in visited:
+                        visited.add(neighbor)
+                        queue.append(neighbor)
+
+        bfs(city)
+
+        if drivers:
+            print(f"Drivers delivering to {city}: {', '.join(drivers)}")
+        else:
+            print("No drivers found for that city.")
 
 system = WeDeliver()
 system.main_menu()
