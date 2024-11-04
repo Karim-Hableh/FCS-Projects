@@ -135,39 +135,56 @@ class WeDeliver:
     #     else:
     #         print("No cities found with that key.")
 
-    def printNeighboringCities(self):
-        city=input("Enter city name:").lower()
-        if city in self.cities:
-            print(f"Neighboring cities for {city}: {', '.join(self.cities[city])}")
-        else:
-            print("City not found")
+    def printNeighboringCity(self):
+        city_connections={
+            "Beirut":["Jbeil","Zahle","Sidon"],
+            "Jbeil":["Beirut"],
+            "Zahle":["Beirut"],
+            "Sidon":["Beirut","Tripoli"],
+            "Tripoli":["Sidon"],
+        }
+        target_city=input("Enter a city").lower()
+        found=False
+        for city,neighbors in city_connections.items():
+            if city.lower()==target_city:
+                print(f"Neighboring cities of {city}: {', '.join(neighbors)}")
+                found=True
+                break
+        if not found:
+            print("City not found.")
 
-    def printDriversDeliveringToCity(self):
-        city = input("Enter city name: ")
-        visited = set()
-        drivers = set()
 
-        def bfs(start_city):
-            queue = deque([start_city])
-            visited.add(start_city)
-            
-            while queue:
-                current_city = queue.popleft()
-                for driver_id, (name, start_city) in self.drivers.items():
-                    if current_city == start_city:
-                        drivers.add(name)
+    # def printNeighboringCities(self):
+    #     city=input("Enter city name:").lower()
+    #     if city in self.cities:
+    #         print(f"Neighboring cities for {city}: {', '.join(self.cities[city])}")
+    #     else:
+    #         print("City not found")
 
-                for neighbor in self.cities[current_city]:
-                    if neighbor not in visited:
-                        visited.add(neighbor)
-                        queue.append(neighbor)
+    # def printDriversDeliveringToCity(self):
+    #     target_city = input("Enter city name: ")
+    #     reachable_drivers = set()
 
-        bfs(city)
+    #     # BFS to find all reachable cities from each driver's start city
+    #     for driver_id, (name, start_city) in self.drivers.items():
+    #         visited = set()
+    #         queue = deque([start_city])
 
-        if drivers:
-            print(f"Drivers delivering to {city}: {', '.join(drivers)}")
-        else:
-            print("No drivers found for that city.")
+    #         while queue:
+    #             city = queue.popleft()
+    #             if city == target_city:
+    #                 reachable_drivers.add(name)
+    #                 break
+
+    #             for neighbor in self.cities[city]:
+    #                 if neighbor not in visited:
+    #                     visited.add(neighbor)
+    #                     queue.append(neighbor)
+
+    #     if reachable_drivers:
+    #         print(f"Drivers delivering to {target_city}: {', '.join(reachable_drivers)}")
+    #     else:
+    #         print(f"No drivers found delivering to {target_city}.")
 
 system = WeDeliver()
 system.main_menu()
